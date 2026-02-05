@@ -50,4 +50,15 @@ public class Libro {
     public void setAutores(List<Autor> autores) {
         this.autores = autores;
     }
+
+    private Integer descargas;
+
+    public Integer getDescargas() {
+        return descargas;
+    }
+
+    public void setDescargas(Integer descargas) {
+        this.descargas = descargas;
+    }
+
 }

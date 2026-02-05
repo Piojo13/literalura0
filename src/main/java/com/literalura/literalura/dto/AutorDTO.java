@@ -1,20 +1,34 @@
 package com.literalura.literalura.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AutorDTO {
 
-    private String name;
-    private Integer birth_year;
-    private Integer death_year;
+    @JsonAlias("name")
+    private String nombre;
 
-    public String getName() {
-        return name;
+    @JsonAlias("birth_year")
+    private Integer anioNacimiento;
+
+    @JsonAlias("death_year")
+    private Integer anioFallecimiento;
+
+    public String getNombre() {
+        return nombre;
     }
 
-    public Integer getBirth_year() {
-        return birth_year;
+    public Integer getAnioNacimiento() {
+        return anioNacimiento;
     }
 
-    public Integer getDeath_year() {
-        return death_year;
+    public Integer getAnioFallecimiento() {
+        return anioFallecimiento;
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " (" + anioNacimiento + " - " + anioFallecimiento + ")";
     }
 }

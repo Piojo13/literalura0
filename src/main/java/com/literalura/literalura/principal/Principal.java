@@ -1,0 +1,77 @@
+package com.literalura.literalura.principal;
+
+import com.literalura.literalura.service.LibroService;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.Scanner;
+
+@Component
+public class Principal implements CommandLineRunner {
+
+    private final LibroService libroService;
+    private Scanner scanner = new Scanner(System.in);
+
+    public Principal(LibroService libroService) {
+        this.libroService = libroService;
+    }
+    @Override
+    public void run(String... args) {
+        mostrarMenu();
+    }
+
+    private void mostrarMenu() {
+
+        int opcion = -1;
+
+        while (opcion != 0) {
+            System.out.println("""
+                    
+                    ========= LITERALURA =========
+                    1 - Buscar libro por título
+                    2 - Listar libros registrados
+                    3 - Listar autores registrados
+                    4 - Listar autores vivos por año
+                    0 - Salir
+                    ===============================
+                    """);
+
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // limpia buffer
+
+            switch (opcion) {
+                case 1 -> buscarLibroPorTitulo();
+                case 2 -> listarLibros();
+                case 3 -> listarAutores();
+                case 4 -> {
+                    System.out.println("Ingrese el año para consultar autores vivos:");
+                    int año = scanner.nextInt();
+                    scanner.nextLine();
+                    libroService.listarAutoresVivosEnAño(año);
+                }
+                case 5 -> {
+                    System.out.println("Ingrese el idioma para consultar cantidad de libros:");
+                    String idioma = scanner.nextLine();
+                    libroService.mostrarCantidadLibrosPorIdioma(idioma);
+                }
+                case 0 -> System.out.println("Nos vemos pronto");
+                default -> System.out.println("Opción inválida");
+            }
+        }
+    }
+
+    private void buscarLibroPorTitulo() {
+        System.out.println("Ingrese el título del libro:");
+        String titulo = scanner.nextLine();
+
+        libroService.buscarYGuardarLibroPorTitulo(titulo);
+    }
+
+    private void listarLibros() {
+        libroService.listarLibros();
+    }
+
+    private void listarAutores() {
+        libroService.listarAutores();
+    }
+}
