@@ -34,5 +34,5 @@ build/
 
 # Config local
 src/main/resources/application.properties
-.env
+*.env
 
