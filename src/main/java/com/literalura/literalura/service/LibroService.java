@@ -8,7 +8,6 @@ import com.literalura.literalura.repository.AutorRepository;
 import com.literalura.literalura.repository.LibroRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,22 +17,36 @@ public class LibroService {
     private final AutorRepository autorRepository;
     private final GutendexClient gutendexClient;
 
-    public LibroService(LibroRepository libroRepository, AutorRepository autorRepository) {
+    public LibroService(
+            LibroRepository libroRepository,
+            AutorRepository autorRepository,
+            GutendexClient gutendexClient
+    ) {
         this.libroRepository = libroRepository;
         this.autorRepository = autorRepository;
-        this.gutendexClient = new GutendexClient();
+        this.gutendexClient = gutendexClient;
     }
 
-    // Guarda un libro desde el DTO recibido de la API
+
     public void guardarLibroDesdeDTO(LibroDTO libroDTO) {
+
+        if (libroDTO.getIdiomas().isEmpty()) {
+            System.out.println("El libro no posee idioma válido.");
+            return;
+        }
+
+        if (libroDTO.getAutores().isEmpty()) {
+            System.out.println("El libro no posee autor válido.");
+            return;
+        }
 
         Libro libro = new Libro(
                 libroDTO.getTitulo(),
                 libroDTO.getIdiomas().get(0)
         );
+
         libro.setDescargas(libroDTO.getDownload_count());
 
-        // Tomar solo el primer autor
         AutorDTO autorDTO = libroDTO.getAutores().get(0);
 
         Autor autor = autorRepository
@@ -51,7 +64,8 @@ public class LibroService {
         libroRepository.save(libro);
     }
 
-    // Busca un libro por título en la base de datos o API y lo guarda
+
+
     public void buscarYGuardarLibroPorTitulo(String titulo) {
 
         if (libroRepository.findByTituloIgnoreCase(titulo).isPresent()) {
@@ -111,8 +125,8 @@ public class LibroService {
         System.out.println("Cantidad de libros en idioma '" + idioma + "': " + cantidad);
     }
     public void listarAutoresVivosEnAño(int año) {
-        List<Autor> autoresVivos = autorRepository
-                .findByAnioNacimientoLessThanEqualAndAnioFallecimientoGreaterThanOrAnioFallecimientoIsNull(año, año);
+        List<Autor> autoresVivos = autorRepository.findAutoresVivosEnAño(año);
+
 
         if (autoresVivos.isEmpty()) {
             System.out.println("No hay autores vivos en el año " + año);

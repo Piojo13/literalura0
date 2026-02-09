@@ -15,6 +15,8 @@ public class Libro {
 
     private String idioma;
 
+    private Integer descargas;
+
     @ManyToMany
     @JoinTable(
             name = "libros_autores",
@@ -51,7 +53,6 @@ public class Libro {
         this.autores = autores;
     }
 
-    private Integer descargas;
 
     public Integer getDescargas() {
         return descargas;

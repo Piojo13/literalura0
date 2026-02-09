@@ -44,4 +44,8 @@ public class Autor {
     public Integer getAnioFallecimiento() {
         return anioFallecimiento;
     }
+
+    public List<Libro> getLibros() {
+        return libros;
+    }
 }

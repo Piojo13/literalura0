@@ -16,6 +16,9 @@ public class LibroDTO {
     @JsonAlias("authors")
     private List<AutorDTO> autores;
 
+    @JsonAlias("download_count")
+    private Integer download_count;
+
     public String getTitulo() {
         return titulo;
     }
@@ -28,13 +31,12 @@ public class LibroDTO {
         return autores;
     }
 
+    public Integer getDownload_count(){
+        return download_count;
+    }
+
     @Override
     public String toString() {
         return "Título: " + titulo + ", Idiomas: " + idiomas + ", Autores: " + autores;
-    }
-
-    private Integer download_count;
-    public Integer getDownload_count(){
-        return download_count;
     }
 }

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AutorDTO {
 
+    public AutorDTO() {}
+
     @JsonAlias("name")
     private String nombre;
 
@@ -29,6 +31,8 @@ public class AutorDTO {
 
     @Override
     public String toString() {
-        return nombre + " (" + anioNacimiento + " - " + anioFallecimiento + ")";
+        return nombre + " (" + anioNacimiento + " - " +
+                (anioFallecimiento != null ? anioFallecimiento : "Presente") + ")";
     }
+
 }

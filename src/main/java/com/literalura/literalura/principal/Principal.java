@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Scanner;
 
 @Component
-public class Principal implements CommandLineRunner {
+public class Principal {
 
     private final LibroService libroService;
     private Scanner scanner = new Scanner(System.in);
@@ -15,26 +15,25 @@ public class Principal implements CommandLineRunner {
     public Principal(LibroService libroService) {
         this.libroService = libroService;
     }
-    @Override
-    public void run(String... args) {
-        mostrarMenu();
-    }
 
-    private void mostrarMenu() {
+
+    public void mostrarMenu() {
 
         int opcion = -1;
 
         while (opcion != 0) {
             System.out.println("""
-                    
-                    ========= LITERALURA =========
-                    1 - Buscar libro por título
-                    2 - Listar libros registrados
-                    3 - Listar autores registrados
-                    4 - Listar autores vivos por año
-                    0 - Salir
-                    ===============================
-                    """);
+        
+        ========= LITERALURA =========
+        1 - Buscar libro por título
+        2 - Listar libros registrados
+        3 - Listar autores registrados
+        4 - Listar autores vivos por año
+        5 - Cantidad de libros por idioma
+        0 - Salir
+        ===============================
+        """);
+
 
             opcion = scanner.nextInt();
             scanner.nextLine(); // limpia buffer
