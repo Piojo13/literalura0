@@ -68,11 +68,6 @@ public class LibroService {
 
     public void buscarYGuardarLibroPorTitulo(String titulo) {
 
-        if (libroRepository.findByTituloIgnoreCase(titulo).isPresent()) {
-            System.out.println("El libro ya existe en la base de datos.");
-            return;
-        }
-
         LibroDTO libroDTO = gutendexClient.buscarLibroPorTitulo(titulo);
 
         if (libroDTO == null) {
@@ -80,9 +75,18 @@ public class LibroService {
             return;
         }
 
+        if (libroRepository
+                .findByTituloIgnoreCase(libroDTO.getTitulo())
+                .isPresent()) {
+
+            System.out.println("El libro ya existe en la base de datos.");
+            return;
+        }
+
         guardarLibroDesdeDTO(libroDTO);
         System.out.println("Libro guardado correctamente.");
     }
+
 
     // Lista todos los libros con Título, Idioma y Descargas
     public void listarLibros() {
