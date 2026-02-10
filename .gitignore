@@ -36,3 +36,21 @@ build/
 src/main/resources/application.properties
 *.env
 
+# === OS files ===
+.DS_Store
+Thumbs.db
+
+# === Logs ===
+*.log
+
+# === Java ===
+*.class
+
+# Runtime
+*.pid
+*.seed
+*.out
+
+# === Maven wrapper cache (opcional pero recomendado) ===
+.mvn/timing.properties
+
