@@ -7,6 +7,7 @@ import com.literalura.literalura.model.Libro;
 import com.literalura.literalura.repository.AutorRepository;
 import com.literalura.literalura.repository.LibroRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class LibroService {
         this.gutendexClient = gutendexClient;
     }
 
-
+@Transactional
     public void guardarLibroDesdeDTO(LibroDTO libroDTO) {
 
         if (libroDTO.getIdiomas().isEmpty()) {
@@ -65,7 +66,7 @@ public class LibroService {
     }
 
 
-
+@Transactional
     public void buscarYGuardarLibroPorTitulo(String titulo) {
 
         LibroDTO libroDTO = gutendexClient.buscarLibroPorTitulo(titulo);
@@ -88,7 +89,7 @@ public class LibroService {
     }
 
 
-    // Lista todos los libros con Título, Idioma y Descargas
+    @Transactional
     public void listarLibros() {
         List<Libro> libros = libroRepository.findAll();
 
@@ -106,7 +107,7 @@ public class LibroService {
         );
     }
 
-    // Lista todos los autores con Nombre y años de vida
+   @Transactional
     public void listarAutores() {
         List<Autor> autores = autorRepository.findAll();
 
@@ -124,10 +125,7 @@ public class LibroService {
         );
     }
 
-    public void mostrarCantidadLibrosPorIdioma(String idioma) {
-        long cantidad = libroRepository.countByIdiomaIgnoreCase(idioma);
-        System.out.println("Cantidad de libros en idioma '" + idioma + "': " + cantidad);
-    }
+@Transactional
     public void listarAutoresVivosEnAño(int año) {
         List<Autor> autoresVivos = autorRepository.findAutoresVivosEnAño(año);
 
@@ -144,6 +142,37 @@ public class LibroService {
                                 (autor.getAnioFallecimiento() != null ? autor.getAnioFallecimiento() : "Presente") + ")"
                 )
         );
+    }
+    @Transactional
+    public void listarLibrosPorIdiomaConAutores(String idioma) {
+
+        List<Libro> libros = libroRepository.findByIdiomaIgnoreCase(idioma);
+
+        if (libros.isEmpty()) {
+            System.out.println("No hay libros en el idioma: " + idioma);
+            return;
+        }
+
+        for (Libro libro : libros) {
+
+            System.out.println("\nTítulo: " + libro.getTitulo());
+
+            if (libro.getAutores() != null) {
+                for (Autor autor : libro.getAutores()) {
+
+                    String fallecimiento =
+                            autor.getAnioFallecimiento() != null
+                                    ? autor.getAnioFallecimiento().toString()
+                                    : "Presente";
+
+                    System.out.println(
+                            "Autor: " + autor.getNombre() +
+                                    " (" + autor.getAnioNacimiento() +
+                                    " - " + fallecimiento + ")"
+                    );
+                }
+            }
+        }
     }
 
 }

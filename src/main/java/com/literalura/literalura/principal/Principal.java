@@ -49,9 +49,29 @@ public class Principal {
                     libroService.listarAutoresVivosEnAño(año);
                 }
                 case 5 -> {
-                    System.out.println("Ingrese el idioma para consultar cantidad de libros:");
-                    String idioma = scanner.nextLine();
-                    libroService.mostrarCantidadLibrosPorIdioma(idioma);
+
+                    System.out.println("""
+            
+    Seleccione idioma:
+    1 - English (en)
+    2 - Español (es)
+    """);
+
+                    int idiomaOpcion = scanner.nextInt();
+                    scanner.nextLine();
+
+                    String idioma = "";
+
+                    switch (idiomaOpcion) {
+                        case 1 -> idioma = "en";
+                        case 2 -> idioma = "es";
+                        default -> {
+                            System.out.println("Idioma inválido");
+                            return;
+                        }
+                    }
+
+                    libroService.listarLibrosPorIdiomaConAutores(idioma);
                 }
                 case 0 -> System.out.println("Nos vemos pronto");
                 default -> System.out.println("Opción inválida");
